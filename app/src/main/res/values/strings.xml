@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MusicApp</string>
+    <string name="form_add">Adicionar</string>
+    <string name="form_edit">Editar</string>
+    <string name="form_hint_runtime">Duração</string>
+    <string name="form_hint_poster">Poster</string>
+    <string name="form_hint_actor">Autor</string>
+    <string name="form_hint_name">Título</string>
+    <string name="form_title">Formulário</string>
+    <string name="message_error">Campos obrigatórios vazios</string>
+    <string name="title_empty">Título não pode ser vazio</string>
+    <string name="actor_empty">Autor não pode ser vazio</string>
+    <string name="runtime_empty">Duração não pode ser vazio</string>
+</resources>
