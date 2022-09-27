@@ -109,7 +109,6 @@
         android:id="@+id/music_form_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:elevation="16dp"
         android:foreground="@drawable/ic_background_ripple"
         android:paddingHorizontal="32dp"

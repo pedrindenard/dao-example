@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.app.musicapp.adapter.MusicAdapter
 import com.app.musicapp.dao.DatabaseImpl
 import com.app.musicapp.databinding.ActivityHomeBinding
+import com.app.musicapp.enums.OnClickEvent
+import com.app.musicapp.model.Music
 import kotlinx.coroutines.flow.collectLatest
 
 class HomeActivity : AppCompatActivity() {
@@ -28,7 +28,6 @@ class HomeActivity : AppCompatActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 setAdapter()
                 setListener()
-                setItemTouch()
                 setData()
             }
         }
@@ -44,33 +43,16 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        mainAdapter.itemClickListener = { item ->
-            val intent = Intent(this, AlterActivity::class.java)
-            intent.putExtra("name", item.name)
-            intent.putExtra("actor", item.actor)
-            intent.putExtra("image", item.image)
-            intent.putExtra("runtime", item.runtime)
-            intent.putExtra("id", item.id)
-            startActivity(intent)
-        }
-    }
-
-    private fun setItemTouch() {
-        val itemTouchDirection = ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
-        val itemTouch = object : ItemTouchHelper.SimpleCallback(0, itemTouchDirection) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.absoluteAdapterPosition
-                removeMusicFromDatabase(position)
-                mainAdapter.removeItem(position)
+        mainAdapter.itemClickListener = { position, event ->
+            when (event) {
+                OnClickEvent.MUSIC_INFORMATION -> {
+                    navigateToActivityDetails(mainAdapter.items[position])
+                }
+                OnClickEvent.MUSIC_DELETE -> {
+                    removeItemFromAdapter(position)
+                }
             }
-
-            override fun onMove(
-                view: RecyclerView, holder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
-            ): Boolean = false
-
         }
-
-        ItemTouchHelper(itemTouch).attachToRecyclerView(binding.musicRecyclerView)
     }
 
     private suspend fun setData() {
@@ -87,5 +69,20 @@ class HomeActivity : AppCompatActivity() {
                 musicDao().delete(mainAdapter.items[position].id)
             }
         }
+    }
+
+    private fun navigateToActivityDetails(item: Music) {
+        val intent = Intent(this, AlterActivity::class.java)
+        intent.putExtra("name", item.name)
+        intent.putExtra("actor", item.actor)
+        intent.putExtra("image", item.image)
+        intent.putExtra("runtime", item.runtime)
+        intent.putExtra("id", item.id)
+        startActivity(intent)
+    }
+
+    private fun removeItemFromAdapter(position: Int) {
+        removeMusicFromDatabase(position)
+        mainAdapter.removeItem(position)
     }
 }

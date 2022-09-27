@@ -35,7 +35,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/music_actor"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/music_remove"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/music_image"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +52,7 @@
             android:maxLines="1"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/music_runtime"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/music_remove"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/music_image"
             app:layout_constraintTop_toBottomOf="@+id/music_name"
@@ -68,11 +68,22 @@
             android:ellipsize="end"
             android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/music_remove"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/music_image"
             app:layout_constraintTop_toBottomOf="@+id/music_actor"
             tools:text="3 min" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/music_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_background_ripple"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

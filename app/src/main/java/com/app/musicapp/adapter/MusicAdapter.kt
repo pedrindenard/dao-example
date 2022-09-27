@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.musicapp.databinding.ItemMusicBinding
+import com.app.musicapp.enums.OnClickEvent
 import com.app.musicapp.model.Music
 import com.bumptech.glide.Glide
 
@@ -11,7 +12,7 @@ class MusicAdapter : RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
 
     val items = arrayListOf<Music>()
 
-    lateinit var itemClickListener: (item: Music) -> Unit
+    lateinit var itemClickListener: (position: Int, onClickEvent: OnClickEvent) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -36,7 +37,17 @@ class MusicAdapter : RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
             binding.musicName.text = music.name
 
             binding.root.setOnClickListener {
-                itemClickListener.invoke(items[absoluteAdapterPosition])
+                itemClickListener.invoke(
+                    absoluteAdapterPosition,
+                    OnClickEvent.MUSIC_INFORMATION
+                )
+            }
+
+            binding.musicRemove.setOnClickListener {
+                itemClickListener.invoke(
+                    absoluteAdapterPosition,
+                    OnClickEvent.MUSIC_DELETE
+                )
             }
 
             Glide.with(binding.root)
