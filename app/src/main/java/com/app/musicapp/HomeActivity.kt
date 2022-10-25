@@ -2,7 +2,9 @@ package com.app.musicapp
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -23,11 +25,20 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setObservers()
+    }
 
+    private fun setObservers() {
         lifecycleScope.launchWhenStarted {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 setAdapter()
                 setListener()
+            }
+        }
+
+        lifecycleScope.launchWhenResumed {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mainAdapter.cleanItems(emptyList())
                 setData()
             }
         }
@@ -49,7 +60,7 @@ class HomeActivity : AppCompatActivity() {
                     navigateToActivityDetails(mainAdapter.items[position])
                 }
                 OnClickEvent.MUSIC_DELETE -> {
-                    removeItemFromAdapter(position)
+                    createDialogAlert(position)
                 }
             }
         }
@@ -59,6 +70,7 @@ class HomeActivity : AppCompatActivity() {
         DatabaseImpl.getInstance(context = this@HomeActivity).apply {
             musicDao().getAll().collectLatest { result ->
                 mainAdapter.insertItems(newList = result?.map { it.music } ?: emptyList())
+                playlistIsEmpty()
             }
         }
     }
@@ -84,5 +96,27 @@ class HomeActivity : AppCompatActivity() {
     private fun removeItemFromAdapter(position: Int) {
         removeMusicFromDatabase(position)
         mainAdapter.removeItem(position)
+        playlistIsEmpty()
+    }
+
+    private fun createDialogAlert(position: Int) {
+        AlertDialog.Builder(this).apply {
+            setMessage(R.string.alert_dialog_message)
+
+            setPositiveButton(R.string.alert_dialog_yes) { dialog, _ ->
+                removeItemFromAdapter(position)
+                dialog.dismiss()
+            }
+
+            setNegativeButton(R.string.alert_dialog_no) { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            create()
+        }.show()
+    }
+
+    private fun playlistIsEmpty() {
+        binding.musicEmpty.isVisible = mainAdapter.items.isEmpty()
     }
 }

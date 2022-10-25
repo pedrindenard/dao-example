@@ -3,6 +3,7 @@ package com.app.musicapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.app.musicapp.R
 import com.app.musicapp.databinding.ItemMusicBinding
 import com.app.musicapp.enums.OnClickEvent
 import com.app.musicapp.model.Music
@@ -52,6 +53,8 @@ class MusicAdapter : RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
 
             Glide.with(binding.root)
                 .load(music.image)
+                .error(R.drawable.ic_error)
+                .placeholder(R.drawable.ic_error)
                 .into(binding.musicImage)
         }
     }
@@ -64,6 +67,15 @@ class MusicAdapter : RecyclerView.Adapter<MusicAdapter.ViewHolder>() {
         items.addAll(newList)
 
         notifyItemRangeInserted(oldPositionRange, newPositionRange)
+    }
+
+    fun cleanItems(newList: List<Music>) {
+        val oldPositionRange = items.size
+        val newPositionRange = newList.size
+
+        items.clear()
+
+        notifyItemRangeRemoved(oldPositionRange, newPositionRange)
     }
 
     fun removeItem(position: Int) {

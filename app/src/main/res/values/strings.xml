@@ -11,4 +11,11 @@
     <string name="title_empty">Título não pode ser vazio</string>
     <string name="actor_empty">Autor não pode ser vazio</string>
     <string name="runtime_empty">Duração não pode ser vazio</string>
+    <string name="alert_dialog_message">Você deseja deletar essa música da sua lista?</string>
+    <string name="alert_dialog_yes">Sim</string>
+    <string name="alert_dialog_no">Não</string>
+    <string name="home_empty_list">Sua lista está vazia :)</string>
+    <string name="message_error_empty_title">Título não pode ser vazio</string>
+    <string name="message_error_empty_actor">Autor não pode ser vazio</string>
+    <string name="message_error_empty_duration">Duração não pode ser vazio</string>
 </resources>

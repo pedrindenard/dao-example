@@ -65,9 +65,9 @@ class AlterActivity : AppCompatActivity() {
         binding.musicFormAdd.setOnClickListener {
             if (name.isBlank() || actor.isBlank() || runtime.isBlank()) {
 
-                binding.musicFormNameEditText.error = "Título não pode ser vazio"
-                binding.musicFormActorEditText.error = "Autor não pode ser vazio"
-                binding.musicFormRuntimeEditText.error = "Duração não pode ser vazio"
+                binding.musicFormNameEditText.error = getString(R.string.message_error_empty_title)
+                binding.musicFormActorEditText.error = getString(R.string.message_error_empty_actor)
+                binding.musicFormRuntimeEditText.error = getString(R.string.message_error_empty_duration)
 
                 Toast.makeText(this, getString(R.string.message_error), Toast.LENGTH_SHORT).show()
 
